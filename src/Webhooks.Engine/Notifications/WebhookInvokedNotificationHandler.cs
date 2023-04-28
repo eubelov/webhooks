@@ -1,15 +1,15 @@
 namespace Webhooks.Engine.Notifications;
 
-internal sealed class WebhookFailedNotificationHandler : INotificationHandler<WebhookInvokedNotification>
+internal sealed class WebhookInvokedNotificationHandler : INotificationHandler<WebhookInvokedNotification>
 {
     private readonly WebhooksContext _context;
 
-    public WebhookFailedNotificationHandler(WebhooksContext context)
+    public WebhookInvokedNotificationHandler(WebhooksContext context)
     {
         _context = context;
     }
 
-    public async Task Handle(WebhookInvokedNotification notification, CancellationToken cancellationToken)
+    public async Task Handle(WebhookInvokedNotification notification, CancellationToken token)
     {
         _context.Invocations.Add(
             new()
@@ -20,6 +20,6 @@ internal sealed class WebhookFailedNotificationHandler : INotificationHandler<We
                 InvokedAtUtc = DateTime.UtcNow,
                 Url = notification.Url
             });
-        await _context.SaveChangesAsync(cancellationToken);
+        await _context.SaveChangesAsync(token);
     }
 }

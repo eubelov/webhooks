@@ -13,3 +13,6 @@ global using Webhooks.BW.Consumers.Workman;
 global using Webhooks.BW.Producers;
 global using Webhooks.BW.Settings;
 global using Webhooks.Engine.Infrastructure;
+global using Webhooks.Commands.Workman;
+global using Webhooks.BW.Requests;
+

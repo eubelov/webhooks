@@ -1,3 +1,5 @@
+using Webhooks.Engine.Infrastructure.MessageBus;
+
 namespace Webhooks.BW.Producers;
 
 internal sealed class RabbitMqPublisher : IRabbitMqPublisher
@@ -9,9 +11,9 @@ internal sealed class RabbitMqPublisher : IRabbitMqPublisher
         _publishEndpoint = publishEndpoint;
     }
 
-    public async Task Send<T>(T message, CancellationToken cancellationToken)
+    public async Task Send<T>(T message, CancellationToken token)
         where T : class
     {
-        await _publishEndpoint.Publish(message, cancellationToken);
+        await _publishEndpoint.Publish(message, token);
     }
 }

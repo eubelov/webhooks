@@ -10,6 +10,5 @@ global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.Logging;
 global using MediatR;
 global using Webhooks.Engine.Entities;
-global using Webhooks.Engine.Models;
 global using Webhooks.Engine.Infrastructure;
 global using Webhooks.Engine.Services;

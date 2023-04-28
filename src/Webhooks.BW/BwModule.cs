@@ -1,3 +1,5 @@
+using Webhooks.Engine.Infrastructure.MessageBus;
+
 namespace Webhooks.BW;
 
 public static class BwModule

@@ -1,6 +1,6 @@
 namespace Webhooks.Engine.Constants;
 
-internal sealed class CustomerNames
+internal static class CustomerNames
 {
     public const string Magnit = "Magnit";
 }

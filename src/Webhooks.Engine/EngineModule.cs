@@ -2,9 +2,10 @@ using Mapster;
 using MapsterMapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Webhooks.Engine.Builders;
-using Webhooks.Engine.Contacts.Mappers;
 using Webhooks.Engine.Notifications;
+using Webhooks.Engine.ThirdParty.Builders;
+using Webhooks.Engine.ThirdParty.Magnit.Builders;
+using Webhooks.Engine.ThirdParty.Magnit.Mappers;
 
 namespace Webhooks.Engine;
 
@@ -15,10 +16,10 @@ public static class EngineModule
         TypeAdapterConfig.GlobalSettings.RequireExplicitMapping = true;
         TypeAdapterConfig.GlobalSettings.RequireDestinationMemberSource = true;
 
-        services.AddHttpClient("web");
+        services.AddHttpClient("default");
         services.AddMediatR(x => x.RegisterServicesFromAssemblyContaining<WebhookInvokedNotification>());
         services.AddScoped<IWebhooksSender, WebhooksSender>();
-        services.AddScoped<IWebhookRequestBuilder, MagnitWebhookRequestBuilder>();
+        services.AddScoped<IWebhookHttpRequestBuilder, MagnitWebhookHttpRequestBuilder>();
 
         services.AddEntityFrameworkNpgsql()
             .AddDbContext<WebhooksContext>(

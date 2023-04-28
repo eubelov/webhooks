@@ -1,6 +1,6 @@
-namespace Webhooks.Engine.Contacts.Magnit;
+namespace Webhooks.Engine.ThirdParty.Magnit.Contracts;
 
-internal sealed class WorkmanModerationCompleted
+internal sealed class WorkmanCreated
 {
     public string Inn { get; init; } = string.Empty;
     public string Phone { get; init; } = string.Empty;

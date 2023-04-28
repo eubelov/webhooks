@@ -1,9 +1,8 @@
 using Polly;
 using Polly.Extensions.Http;
-using Webhooks.Commands;
 using Webhooks.Commands.Enums;
-using Webhooks.Engine.Builders;
 using Webhooks.Engine.Notifications;
+using Webhooks.Engine.ThirdParty.Builders;
 
 namespace Webhooks.Engine.Services;
 
@@ -11,7 +10,7 @@ internal sealed class WebhooksSender : IWebhooksSender
 {
     private static readonly TimeSpan[] Retries =
     {
-        TimeSpan.FromSeconds(0),
+        TimeSpan.FromSeconds(0)
         // TimeSpan.FromSeconds(0),
         // TimeSpan.FromSeconds(2),
         // TimeSpan.FromSeconds(4),
@@ -20,20 +19,20 @@ internal sealed class WebhooksSender : IWebhooksSender
     };
 
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly IMediator _mediator;
-    private readonly IEnumerable<IWebhookRequestBuilder> _requestBuilders;
     private readonly ILogger<WebhooksSender> _logger;
+    private readonly IMediator _mediator;
+    private readonly List<IWebhookHttpRequestBuilder> _requestBuilders;
     private readonly IAsyncPolicy<HttpResponseMessage> _retryPolicy;
 
     public WebhooksSender(
         IHttpClientFactory httpClientFactory,
         IMediator mediator,
-        IEnumerable<IWebhookRequestBuilder> requestBuilders,
+        IEnumerable<IWebhookHttpRequestBuilder> requestBuilders,
         ILogger<WebhooksSender> logger)
     {
         _httpClientFactory = httpClientFactory;
         _mediator = mediator;
-        _requestBuilders = requestBuilders;
+        _requestBuilders = requestBuilders.ToList();
         _logger = logger;
         _retryPolicy = HttpPolicyExtensions.HandleTransientHttpError()
             .WaitAndRetryAsync(
@@ -54,53 +53,43 @@ internal sealed class WebhooksSender : IWebhooksSender
                 });
     }
 
-    public async Task<bool> SendOne<T>(WebhookSubscription receiver, T payload, CancellationToken cancellationToken)
-        where T : CommandBase
+    public async Task<bool> Send(WebhookSubscription receiver, string payloadJson, CancellationToken token)
     {
-        var client = _httpClientFactory.CreateClient("web");
-        return await ExecuteWebhook(receiver, payload, client, cancellationToken);
+        var client = _httpClientFactory.CreateClient("default");
+        return await Send(receiver, payloadJson, client, token);
     }
 
-    private async Task<bool> ExecuteWebhook<T>(
+    private async Task<bool> Send(
         WebhookSubscription subscription,
-        T payload,
+        string payloadJson,
         HttpMessageInvoker client,
-        CancellationToken cancellationToken)
-        where T : CommandBase
+        CancellationToken token)
     {
         var attempts = 0;
-        var context = new Context { ["Url"] = subscription.Url, ["Type"] = subscription.Type };
 
-        async Task<HttpResponseMessage> Execute(Context _)
+        HttpRequestMessage BuildHttpRequest()
         {
+            var builder = _requestBuilders.Single(x =>
+                x.CustomerName.Equals(subscription.CustomerName, StringComparison.OrdinalIgnoreCase));
+
+            return builder.BuildRequest(subscription, payloadJson);
+        }
+
+        async Task<HttpResponseMessage> SendRequest(Context _)
+        {
+            _logger.LogTrace(
+                "Sending hook to {DestinationUrl} of type {WebhookType}",
+                subscription.Url,
+                subscription.Type);
+
             attempts++;
-            return await SendData(subscription, payload, client, cancellationToken);
+            return await client.SendAsync(BuildHttpRequest(), token);
         }
 
-        var result = await _retryPolicy.ExecuteAndCaptureAsync(Execute, context);
-        if (result.Outcome is OutcomeType.Successful)
-        {
-            await _mediator.Publish(
-                new WebhookInvokedNotification(subscription.Url, true, attempts),
-                cancellationToken);
-        }
-
-        return result.Outcome is OutcomeType.Successful;
-    }
-
-    private async Task<HttpResponseMessage> SendData<T>(
-        WebhookSubscription subscription,
-        T payload,
-        HttpMessageInvoker client,
-        CancellationToken cancellationToken)
-        where T : CommandBase
-    {
-        var builder = _requestBuilders.Single(x =>
-            x.CustomerName.Equals(subscription.CustomerName, StringComparison.OrdinalIgnoreCase));
-
-        var request = builder.BuildRequest(subscription, payload);
-
-        _logger.LogTrace("Sending hook to {DestinationUrl} of type {WebhookType}", subscription.Url, subscription.Type);
-        return await client.SendAsync(request, cancellationToken);
+        var context = new Context { ["Url"] = subscription.Url, ["Type"] = subscription.Type };
+        var result = await _retryPolicy.ExecuteAndCaptureAsync(SendRequest, context);
+        var isSuccessful = result.Outcome is OutcomeType.Successful;
+        await _mediator.Publish(new WebhookInvokedNotification(subscription.Url, isSuccessful, attempts), token);
+        return isSuccessful;
     }
 }

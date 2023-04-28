@@ -1,4 +1,4 @@
-using Webhooks.Engine.Messages;
+using Webhooks.Engine.Infrastructure.MessageBus;
 
 namespace Webhooks.BW.Requests;
 

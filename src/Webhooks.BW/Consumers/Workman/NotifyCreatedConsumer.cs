@@ -1,5 +1,3 @@
-using Webhooks.Commands.Workman;
-
 namespace Webhooks.BW.Consumers.Workman;
 
 internal sealed class NotifyCreatedConsumer : IConsumer<NotifyCreated>
@@ -13,6 +11,6 @@ internal sealed class NotifyCreatedConsumer : IConsumer<NotifyCreated>
 
     public async Task Consume(ConsumeContext<NotifyCreated> context)
     {
-        await _mediator.Send(new ProcessIntegrationEventRequest(context.Message), context.CancellationToken);
+        await _mediator.Send(new ProcessCommandRequest(context.Message), context.CancellationToken);
     }
 }

@@ -9,8 +9,8 @@ internal sealed class WebhooksContext : DbContext
     {
     }
 
-    public DbSet<WebhookSubscription> Subscriptions { get; set; } = default!;
-    public DbSet<WebhookInvocation> Invocations { get; set; } = default!;
+    public DbSet<WebhookSubscription> Subscriptions { get; init; } = default!;
+    public DbSet<WebhookInvocation> Invocations { get; init; } = default!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

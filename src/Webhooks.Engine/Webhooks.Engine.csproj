@@ -22,11 +22,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Remove="Exceptions\**" />
+        <EmbeddedResource Remove="Exceptions\**" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="Exceptions\**" />
+        <None Remove="Exceptions\**" />
     </ItemGroup>
 
 </Project>

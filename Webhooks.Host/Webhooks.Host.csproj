@@ -8,18 +8,18 @@
         <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
-    
+
     <ItemGroup>
-        <PackageReference Include="MassTransit" Version="8.0.15" />
+        <PackageReference Include="MassTransit" Version="8.0.15"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\src\Webhooks.BW\Webhooks.BW.csproj" />
-      <ProjectReference Include="..\src\Webhooks.Engine\Webhooks.Engine.csproj" />
+        <ProjectReference Include="..\src\Webhooks.BW\Webhooks.BW.csproj"/>
+        <ProjectReference Include="..\src\Webhooks.Engine\Webhooks.Engine.csproj"/>
     </ItemGroup>
 
 </Project>

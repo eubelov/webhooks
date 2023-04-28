@@ -1,4 +1,4 @@
-using Webhooks.Engine.Messages;
+using Webhooks.Engine.Infrastructure.MessageBus;
 
 namespace Webhooks.BW.Consumers;
 
@@ -13,7 +13,7 @@ internal sealed class SendWebhookCommandConsumer : IConsumer<SendWebhookCommand>
 
     public async Task Consume(ConsumeContext<SendWebhookCommand> context)
     {
-        (var subscriptionId, var payload) = context.Message;
+        var (subscriptionId, payload) = context.Message;
         await _mediator.Send(new SendWebhookRequest(subscriptionId, payload), context.CancellationToken);
     }
 }
