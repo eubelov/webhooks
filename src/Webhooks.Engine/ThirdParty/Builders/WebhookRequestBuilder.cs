@@ -1,32 +1,10 @@
 using System.Diagnostics;
-using MapsterMapper;
-using Webhooks.Commands;
-using Webhooks.Commands.Workman;
-using Webhooks.Engine.ThirdParty.Magnit.Contracts;
 
 namespace Webhooks.Engine.ThirdParty.Builders;
 
-internal abstract class WebhookHttpRequestBuilder : IWebhookHttpRequestBuilder
+internal abstract class WebhookRequestBuilder : IWebhookRequestBuilder
 {
-    private readonly IMapper _mapper;
-
-    protected WebhookHttpRequestBuilder(IMapper mapper)
-    {
-        _mapper = mapper;
-    }
-
     public abstract string CustomerName { get; }
-
-    public object? BuildPayload<T>(T source)
-        where T : CommandBase
-    {
-        return source switch
-        {
-            NotifyCreated => _mapper.Map<WorkmanCreated>(source),
-            NotifyModerationCompleted => _mapper.Map<WorkmanModerationCompleted>(source),
-            _ => null
-        };
-    }
 
     public HttpRequestMessage BuildRequest(WebhookSubscription subscription, string payloadJson)
     {

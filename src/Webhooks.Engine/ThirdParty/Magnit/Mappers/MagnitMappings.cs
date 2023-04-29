@@ -4,7 +4,7 @@ using Webhooks.Engine.ThirdParty.Magnit.Contracts;
 
 namespace Webhooks.Engine.ThirdParty.Magnit.Mappers;
 
-internal static class MagnitMapper
+internal static class MagnitMappings
 {
     public static void MapMagnitContracts(this TypeAdapterConfig config)
     {

@@ -9,13 +9,13 @@ using Webhooks.Engine.Entities;
 using Webhooks.Engine.Infrastructure;
 using Webhooks.Engine.Infrastructure.MessageBus;
 using Webhooks.Engine.Requests;
-using Webhooks.Engine.ThirdParty.Builders;
+using Webhooks.Engine.ThirdParty.Mappers;
 
 namespace Webhooks.UnitTests.Engine.Requests;
 
 public sealed class ProcessCommandHandlerTests
 {
-    private readonly Mock<IWebhookHttpRequestBuilder> _builder = new();
+    private readonly Mock<IWebhookPayloadMapper> _mapper = new();
     private readonly NotifyCreated _command;
     private readonly ProcessCommandHandler _handler;
     private readonly Mock<IRabbitMqPublisher> _rabbitMqPublisher = new();
@@ -38,13 +38,13 @@ public sealed class ProcessCommandHandlerTests
         context.Subscriptions.Add(_subscription);
         context.SaveChanges();
 
-        _builder.SetupGet(x => x.CustomerName).Returns(_subscription.CustomerName);
-        _builder.Setup(x => x.BuildPayload(It.IsAny<CommandBase>())).Returns(new object());
+        _mapper.SetupGet(x => x.CustomerName).Returns(_subscription.CustomerName);
+        _mapper.Setup(x => x.Map(It.IsAny<CommandBase>())).Returns(new object());
 
         _handler = new(
             context,
             _rabbitMqPublisher.Object,
-            new[] { _builder.Object },
+            new[] { _mapper.Object },
             NullLogger<ProcessCommandHandler>.Instance);
     }
 
@@ -52,7 +52,7 @@ public sealed class ProcessCommandHandlerTests
     public async Task Should_Map_Command_To_Expected_Input_Type()
     {
         await _handler.Handle(new(_command), default);
-        _builder.Verify(x => x.BuildPayload<CommandBase>(_command), Times.Once);
+        _mapper.Verify(x => x.Map<CommandBase>(_command), Times.Once);
     }
 
     [Fact]
@@ -69,7 +69,7 @@ public sealed class ProcessCommandHandlerTests
     public async Task Should_Not_Send_SendWebhookCommand_If_Subscription_Not_Found()
     {
         await _handler.Handle(new(new AutoFaker<NotifyModerationCompleted>()), default);
-        _builder.VerifyNoOtherCalls();
+        _mapper.VerifyNoOtherCalls();
         _rabbitMqPublisher
             .Verify(
                 x => x.Send(It.Is<SendWebhookCommand>(c => c.SubscriptionId == _subscription.Id), default),

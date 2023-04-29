@@ -21,13 +21,13 @@ internal sealed class WebhooksSender : IWebhooksSender
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ILogger<WebhooksSender> _logger;
     private readonly IMediator _mediator;
-    private readonly List<IWebhookHttpRequestBuilder> _requestBuilders;
+    private readonly List<IWebhookRequestBuilder> _requestBuilders;
     private readonly IAsyncPolicy<HttpResponseMessage> _retryPolicy;
 
     public WebhooksSender(
         IHttpClientFactory httpClientFactory,
         IMediator mediator,
-        IEnumerable<IWebhookHttpRequestBuilder> requestBuilders,
+        IEnumerable<IWebhookRequestBuilder> requestBuilders,
         ILogger<WebhooksSender> logger)
     {
         _httpClientFactory = httpClientFactory;

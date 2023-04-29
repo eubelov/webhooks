@@ -1,6 +1,5 @@
 using AutoBogus;
 using MassTransit;
-using MediatR;
 using Moq;
 using Webhooks.BW.Consumers.Workman;
 using Webhooks.Commands.Workman;

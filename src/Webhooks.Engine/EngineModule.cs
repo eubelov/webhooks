@@ -6,6 +6,7 @@ using Webhooks.Engine.Notifications;
 using Webhooks.Engine.ThirdParty.Builders;
 using Webhooks.Engine.ThirdParty.Magnit.Builders;
 using Webhooks.Engine.ThirdParty.Magnit.Mappers;
+using Webhooks.Engine.ThirdParty.Mappers;
 
 namespace Webhooks.Engine;
 
@@ -18,8 +19,10 @@ public static class EngineModule
 
         services.AddHttpClient("default");
         services.AddMediatR(x => x.RegisterServicesFromAssemblyContaining<WebhookInvokedNotification>());
-        services.AddScoped<IWebhooksSender, WebhooksSender>();
-        services.AddScoped<IWebhookHttpRequestBuilder, MagnitWebhookHttpRequestBuilder>();
+        services
+            .AddScoped<IWebhooksSender, WebhooksSender>()
+            .AddScoped<IWebhookRequestBuilder, MagnitWebhookRequestBuilder>()
+            .AddScoped<IWebhookPayloadMapper, MagnitWebhookPayloadMapper>();
 
         services.AddEntityFrameworkNpgsql()
             .AddDbContext<WebhooksContext>(

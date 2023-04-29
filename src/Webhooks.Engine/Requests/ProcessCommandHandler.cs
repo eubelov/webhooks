@@ -2,7 +2,7 @@ using Webhooks.Commands;
 using Webhooks.Commands.Enums;
 using Webhooks.Engine.Extensions;
 using Webhooks.Engine.Infrastructure.MessageBus;
-using Webhooks.Engine.ThirdParty.Builders;
+using Webhooks.Engine.ThirdParty.Mappers;
 
 namespace Webhooks.Engine.Requests;
 
@@ -11,17 +11,17 @@ internal sealed class ProcessCommandHandler : IRequestHandler<ProcessCommandRequ
     private readonly WebhooksContext _context;
     private readonly ILogger<ProcessCommandHandler> _logger;
     private readonly IRabbitMqPublisher _publisher;
-    private readonly IEnumerable<IWebhookHttpRequestBuilder> _requestBuilders;
+    private readonly IEnumerable<IWebhookPayloadMapper> _mappers;
 
     public ProcessCommandHandler(
         WebhooksContext context,
         IRabbitMqPublisher publisher,
-        IEnumerable<IWebhookHttpRequestBuilder> requestBuilders,
+        IEnumerable<IWebhookPayloadMapper> mappers,
         ILogger<ProcessCommandHandler> logger)
     {
         _context = context;
         _publisher = publisher;
-        _requestBuilders = requestBuilders;
+        _mappers = mappers;
         _logger = logger;
     }
 
@@ -63,7 +63,7 @@ internal sealed class ProcessCommandHandler : IRequestHandler<ProcessCommandRequ
 
     private object? GetRequestPayload(WebhookSubscription subscription, CommandBase command)
     {
-        var builder = _requestBuilders.Single(x => x.CustomerName.EqualsIgnoreCase(subscription.CustomerName));
-        return builder.BuildPayload(command);
+        var builder = _mappers.Single(x => x.CustomerName.EqualsIgnoreCase(subscription.CustomerName));
+        return builder.Map(command);
     }
 }

@@ -1,14 +1,9 @@
-using MapsterMapper;
 using Webhooks.Engine.Constants;
 using Webhooks.Engine.ThirdParty.Builders;
 
 namespace Webhooks.Engine.ThirdParty.Magnit.Builders;
 
-internal sealed class MagnitWebhookHttpRequestBuilder : WebhookHttpRequestBuilder
+internal sealed class MagnitWebhookRequestBuilder : WebhookRequestBuilder
 {
-    public MagnitWebhookHttpRequestBuilder(IMapper mapper) : base(mapper)
-    {
-    }
-
     public override string CustomerName => CustomerNames.Magnit;
 }
