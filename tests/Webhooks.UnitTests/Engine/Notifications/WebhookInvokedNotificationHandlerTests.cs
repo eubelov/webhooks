@@ -1,9 +1,3 @@
-using AutoBogus;
-using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
-using Webhooks.Engine.Infrastructure;
-using Webhooks.Engine.Notifications;
-
 namespace Webhooks.UnitTests.Engine.Notifications;
 
 public sealed class WebhookInvokedNotificationHandlerTests

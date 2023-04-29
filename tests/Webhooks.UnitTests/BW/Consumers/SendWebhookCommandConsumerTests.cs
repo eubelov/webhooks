@@ -1,9 +1,5 @@
-using AutoBogus;
 using MassTransit;
-using Moq;
 using Webhooks.BW.Consumers;
-using Webhooks.Engine.Infrastructure.MessageBus;
-using Webhooks.Engine.Requests;
 
 namespace Webhooks.UnitTests.BW.Consumers;
 

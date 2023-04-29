@@ -12,7 +12,7 @@ internal static class MagnitMappings
             .Map(src => src.Inn, dest => dest.Inn)
             .Map(src => src.Phone, dest => dest.Phone);
 
-        config.NewConfig<WorkmanModerationCompleted, WorkmanModerationCompleted>()
+        config.NewConfig<NotifyModerationCompleted, WorkmanModerationCompleted>()
             .Map(src => src.Inn, dest => dest.Inn)
             .Map(src => src.Phone, dest => dest.Phone);
     }

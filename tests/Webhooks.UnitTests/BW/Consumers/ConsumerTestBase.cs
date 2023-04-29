@@ -1,5 +1,4 @@
 using MediatR;
-using Moq;
 
 namespace Webhooks.UnitTests.BW.Consumers;
 

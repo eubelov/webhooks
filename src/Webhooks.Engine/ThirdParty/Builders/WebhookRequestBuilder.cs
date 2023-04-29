@@ -17,7 +17,7 @@ internal abstract class WebhookRequestBuilder : IWebhookRequestBuilder
     {
         if (!string.IsNullOrWhiteSpace(subscription.Token))
         {
-            request.Headers.Add("Authorization", subscription.Token);
+            request.Headers.Add("Authorization", $"Bearer {subscription.Token}");
         }
 
         return request;

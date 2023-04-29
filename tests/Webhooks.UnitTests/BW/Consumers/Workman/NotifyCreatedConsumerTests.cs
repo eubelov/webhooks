@@ -1,9 +1,5 @@
-using AutoBogus;
 using MassTransit;
-using Moq;
 using Webhooks.BW.Consumers.Workman;
-using Webhooks.Commands.Workman;
-using Webhooks.Engine.Requests;
 
 namespace Webhooks.UnitTests.BW.Consumers.Workman;
 

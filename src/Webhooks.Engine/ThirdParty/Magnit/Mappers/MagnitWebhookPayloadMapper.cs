@@ -25,7 +25,9 @@ internal sealed class MagnitWebhookPayloadMapper : IWebhookPayloadMapper
         {
             NotifyCreated => _mapper.Map<WorkmanCreated>(source),
             NotifyModerationCompleted => _mapper.Map<WorkmanModerationCompleted>(source),
-            _ => null
+            _ => throw new ArgumentOutOfRangeException(
+                nameof(source),
+                $"Unsupported command type - {source.GetType().Name}")
         };
     }
 }
