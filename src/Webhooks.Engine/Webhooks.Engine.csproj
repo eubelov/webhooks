@@ -19,14 +19,8 @@
 
     <ItemGroup>
         <InternalsVisibleTo Include="Webhooks.Host" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <EmbeddedResource Remove="Exceptions\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Remove="Exceptions\**" />
+        <InternalsVisibleTo Include="Webhooks.UnitTests" />
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
     </ItemGroup>
 
 </Project>

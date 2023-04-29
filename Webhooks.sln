@@ -8,6 +8,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webhooks.Engine", "src\Webh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webhooks.Commands", "src\Webhooks.Commands\Webhooks.Commands.csproj", "{2F12C186-BAB1-423A-900F-51123862ABC5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{FFBB93ED-F105-4CD6-AB32-36DDC65F432C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webhooks.UnitTests", "tests\Webhooks.UnitTests\Webhooks.UnitTests.csproj", "{490DD140-0945-484E-886F-8811F8BF9EC0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +34,12 @@ Global
 		{2F12C186-BAB1-423A-900F-51123862ABC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F12C186-BAB1-423A-900F-51123862ABC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F12C186-BAB1-423A-900F-51123862ABC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{490DD140-0945-484E-886F-8811F8BF9EC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{490DD140-0945-484E-886F-8811F8BF9EC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{490DD140-0945-484E-886F-8811F8BF9EC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{490DD140-0945-484E-886F-8811F8BF9EC0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{490DD140-0945-484E-886F-8811F8BF9EC0} = {FFBB93ED-F105-4CD6-AB32-36DDC65F432C}
 	EndGlobalSection
 EndGlobal
