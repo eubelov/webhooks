@@ -24,5 +24,19 @@
         <InternalsVisibleTo Include="Webhooks.UnitTests" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Producers\RabbitMqPublisher.cs" />
+      <Compile Remove="Producers\**" />
+      <Compile Remove="Requests\RescheduleWebhookRequest.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Producers\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Producers\**" />
+    </ItemGroup>
+
     
 </Project>

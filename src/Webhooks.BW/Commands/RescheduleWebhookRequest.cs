@@ -1,5 +1,3 @@
-using Webhooks.Engine.Infrastructure.MessageBus;
-
-namespace Webhooks.BW.Requests;
+namespace Webhooks.BW.Commands;
 
 internal sealed record RescheduleWebhookRequest(long Attempt, SendWebhookCommand Command) : IRequest<bool>;

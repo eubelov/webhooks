@@ -1,28 +1,28 @@
 using Webhooks.Commands;
 using Webhooks.Commands.Enums;
 using Webhooks.Engine.Extensions;
-using Webhooks.Engine.Infrastructure.MessageBus;
+using Webhooks.Engine.Ports;
 using Webhooks.Engine.ThirdParty.Mappers;
 
 namespace Webhooks.Engine.Requests;
 
-internal sealed class ProcessCommandHandler : IRequestHandler<ProcessCommandRequest>
+internal sealed class ProcessCommandRequestHandler : IRequestHandler<ProcessCommandRequest>
 {
     private readonly WebhooksContext _context;
-    private readonly ILogger<ProcessCommandHandler> _logger;
-    private readonly IRabbitMqPublisher _publisher;
+    private readonly ILogger<ProcessCommandRequestHandler> _logger;
+    private readonly IWebhookScheduler _webhookScheduler;
     private readonly IEnumerable<IWebhookPayloadMapper> _mappers;
 
-    public ProcessCommandHandler(
+    public ProcessCommandRequestHandler(
         WebhooksContext context,
-        IRabbitMqPublisher publisher,
+        IWebhookScheduler webhookScheduler,
         IEnumerable<IWebhookPayloadMapper> mappers,
-        ILogger<ProcessCommandHandler> logger)
+        ILogger<ProcessCommandRequestHandler> logger)
     {
         _context = context;
-        _publisher = publisher;
         _mappers = mappers;
         _logger = logger;
+        _webhookScheduler = webhookScheduler;
     }
 
     public async Task Handle(ProcessCommandRequest request, CancellationToken token)
@@ -45,7 +45,7 @@ internal sealed class ProcessCommandHandler : IRequestHandler<ProcessCommandRequ
             {
                 var payload = GetRequestPayload(x, command);
                 var payloadJson = JsonSerializer.Serialize(payload);
-                return _publisher.Send(new SendWebhookCommand(x.Id, payloadJson), token);
+                return _webhookScheduler.ScheduleSend(x.Id, payloadJson, token);
             });
 
         await Task.WhenAll(sendTasks);

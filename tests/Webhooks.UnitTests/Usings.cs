@@ -12,7 +12,6 @@ global using Webhooks.Commands;
 global using Webhooks.Commands.Enums;
 global using Webhooks.Engine.Entities;
 global using Webhooks.Engine.Infrastructure;
-global using Webhooks.Engine.Infrastructure.MessageBus;
 global using Webhooks.Engine.Requests;
 global using Webhooks.Engine.ThirdParty.Mappers;
 global using Webhooks.Engine.Services;

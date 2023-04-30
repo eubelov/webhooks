@@ -1,11 +1,13 @@
+using Webhooks.Engine.Ports;
+
 namespace Webhooks.UnitTests.Engine.Requests;
 
 public sealed class ProcessCommandHandlerTests
 {
     private readonly Mock<IWebhookPayloadMapper> _mapper = new();
     private readonly NotifyCreated _command;
-    private readonly ProcessCommandHandler _handler;
-    private readonly Mock<IRabbitMqPublisher> _rabbitMqPublisher = new();
+    private readonly ProcessCommandRequestHandler _requestHandler;
+    private readonly Mock<IWebhookScheduler> _webhookScheduler = new();
     private readonly WebhookSubscription _subscription;
 
     public ProcessCommandHandlerTests()
@@ -28,38 +30,43 @@ public sealed class ProcessCommandHandlerTests
         _mapper.SetupGet(x => x.CustomerName).Returns(_subscription.CustomerName);
         _mapper.Setup(x => x.Map(It.IsAny<CommandBase>())).Returns(new object());
 
-        _handler = new(
+        _requestHandler = new(
             context,
-            _rabbitMqPublisher.Object,
+            _webhookScheduler.Object,
             new[] { _mapper.Object },
-            NullLogger<ProcessCommandHandler>.Instance);
+            NullLogger<ProcessCommandRequestHandler>.Instance);
     }
 
     [Fact]
     public async Task Should_Map_Command_To_Expected_Input_Type()
     {
-        await _handler.Handle(new(_command), default);
+        await _requestHandler.Handle(new(_command), default);
         _mapper.Verify(x => x.Map<CommandBase>(_command), Times.Once);
     }
 
     [Fact]
     public async Task Should_Send_SendWebhookCommand()
     {
-        await _handler.Handle(new(_command), default);
-        _rabbitMqPublisher
+        await _requestHandler.Handle(new(_command), default);
+        _webhookScheduler
             .Verify(
-                x => x.Send(It.Is<SendWebhookCommand>(c => c.SubscriptionId == _subscription.Id), default),
+                x => x.ScheduleSend(
+                    _subscription.Id,
+                    It.IsAny<string>(),
+                    default),
                 Times.Once);
     }
 
     [Fact]
     public async Task Should_Not_Send_SendWebhookCommand_If_Subscription_Not_Found()
     {
-        await _handler.Handle(new(new AutoFaker<NotifyModerationCompleted>()), default);
+        await _requestHandler.Handle(new(new AutoFaker<NotifyModerationCompleted>()), default);
         _mapper.VerifyNoOtherCalls();
-        _rabbitMqPublisher
-            .Verify(
-                x => x.Send(It.Is<SendWebhookCommand>(c => c.SubscriptionId == _subscription.Id), default),
-                Times.Never);
+        _webhookScheduler.Verify(
+            x => x.ScheduleSend(
+                It.IsAny<Guid>(),
+                It.IsAny<string>(),
+                default),
+            Times.Never);
     }
 }

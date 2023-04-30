@@ -1,4 +1,5 @@
-using Webhooks.Engine.Infrastructure.MessageBus;
+using Webhooks.BW.Adapters;
+using Webhooks.Engine.Ports;
 
 namespace Webhooks.BW;
 
@@ -9,7 +10,7 @@ public static class BwModule
         JobStorage.Current = new MemoryStorage();
 
         services.AddMediatR(x => x.RegisterServicesFromAssemblyContaining<RabbitSettings>());
-        services.AddScoped<IRabbitMqPublisher, RabbitMqPublisher>();
+        services.AddScoped<IWebhookScheduler, WebhookScheduler>();
 
         services.AddMassTransit(x =>
         {
@@ -18,7 +19,7 @@ public static class BwModule
             x.AddMessageScheduler(new("queue:webhooks-hangfire"));
             x.AddConsumer<NotifyCreatedConsumer>();
             x.AddConsumer<NotifyModerationCompletedConsumer>();
-            x.AddConsumer<SendWebhookCommandConsumer>();
+            x.AddConsumer<ScheduleWebhookCommandConsumer>();
             x.UsingRabbitMq((ctx, cfg) =>
             {
                 cfg.Host(settings.Uri, settings.Port, settings.VirtualHost, c =>
