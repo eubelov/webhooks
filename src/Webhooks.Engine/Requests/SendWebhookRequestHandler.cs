@@ -11,7 +11,7 @@ internal sealed class SendWebhookRequestHandler : IRequestHandler<SendWebhookReq
         _webhooksSender = webhooksSender;
     }
 
-    public async Task<bool> Handle(SendWebhookRequest request, CancellationToken token)
+    public async ValueTask<bool> Handle(SendWebhookRequest request, CancellationToken token)
     {
         var subscription = await GetSubscription(request.SubscriptionId, token);
         return await _webhooksSender.Send(subscription, request.PayloadJson, token);

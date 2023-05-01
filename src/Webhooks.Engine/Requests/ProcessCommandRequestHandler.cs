@@ -19,12 +19,14 @@ internal sealed class ProcessCommandRequestHandler : IRequestHandler<ProcessComm
         _webhookScheduler = webhookScheduler;
     }
 
-    public async Task Handle(ProcessCommandRequest request, CancellationToken token)
+    public async ValueTask<Unit> Handle(ProcessCommandRequest request, CancellationToken token)
     {
         var command = request.Command;
         _logger.LogTrace("Processing command {CommandType}", command.CommandType);
         var subscribers = await GetSubscribers(command.CommandType, token);
         await ScheduleWebhooks(subscribers, command, token);
+
+        return Unit.Value;
     }
 
     private async Task ScheduleWebhooks(

@@ -1,5 +1,3 @@
-using FakeItEasy;
-
 namespace Webhooks.UnitTests.Engine.Requests;
 
 public sealed class SendWebhookRequestHandlerTests

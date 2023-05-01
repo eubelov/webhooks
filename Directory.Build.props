@@ -1,5 +1,4 @@
 <Project>
-    <!-- Default properties for all solution projects -->
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <IsPackable>false</IsPackable>
@@ -7,5 +6,6 @@
         <NoWarn>CA1062;$(NoWarn)</NoWarn>
         <ImplicitUsings>enable</ImplicitUsings>
         <TreatWarningAsErrors>true</TreatWarningAsErrors>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
 </Project>

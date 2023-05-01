@@ -6,8 +6,7 @@ public static class BwModule
 {
     public static void RegisterBwModuleDependencies(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddMediatR(x => x.RegisterServicesFromAssemblyContaining<RabbitSettings>());
-        services.AddScoped<IWebhookScheduler, WebhookScheduler>();
+        services.AddTransient<IWebhookScheduler, WebhookScheduler>();
 
         services.AddMassTransit(x =>
         {

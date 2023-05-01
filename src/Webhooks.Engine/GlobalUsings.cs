@@ -8,7 +8,7 @@ global using System.Threading;
 global using System;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.Logging;
-global using MediatR;
+global using Mediator;
 global using Webhooks.Engine.Entities;
 global using Webhooks.Engine.Infrastructure;
 global using Webhooks.Engine.Services;
@@ -27,9 +27,7 @@ global using Webhooks.Commands.Enums;
 global using Webhooks.Engine.Notifications;
 global using Webhooks.Engine.Extensions;
 global using Webhooks.Engine.Ports;
-
-
-
-
-
-
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using Webhooks.Engine.ThirdParty.Magnit.Builders;
+global using Webhooks.Engine.ThirdParty.Magnit.Mappers;

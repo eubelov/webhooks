@@ -1,6 +1,3 @@
-using FakeItEasy;
-using MediatR;
-
 namespace Webhooks.UnitTests.BW.Consumers;
 
 public abstract class ConsumerTestBase

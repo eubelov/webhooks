@@ -51,7 +51,7 @@ internal sealed class WebhooksSender : IWebhooksSender
 
     public async Task<bool> Send(WebhookSubscription receiver, string payloadJson, CancellationToken token)
     {
-        var client = _httpClientFactory.CreateClient("Default");
+        using var client = _httpClientFactory.CreateClient(ConfigurationConstants.HttpClientName);
         return await Send(receiver, payloadJson, client, token);
     }
 
@@ -81,15 +81,21 @@ internal sealed class WebhooksSender : IWebhooksSender
             attempts++;
             return await client.SendAsync(BuildHttpRequest(), token);
         }
+        
+        async Task<bool> ProcessResult(PolicyResult<HttpResponseMessage> result)
+        {
+            var isSuccessful = result.Outcome is OutcomeType.Successful && result.Result.IsSuccessStatusCode;
+            var statusCode = (int?)result.Result?.StatusCode;
+            var error = result.FinalException?.Message ?? result.Result?.ReasonPhrase;
+            await _mediator.Publish(
+                new WebhookInvokedNotification(subscription.Url, isSuccessful, attempts, statusCode, error),
+                token);
+
+            return isSuccessful;
+        }
 
         var context = new Context { ["Url"] = subscription.Url, ["Type"] = subscription.Type };
         var result = await _retryPolicy.ExecuteAndCaptureAsync(SendRequest, context);
-        var isSuccessful = result.Outcome is OutcomeType.Successful && result.Result.IsSuccessStatusCode;
-        var statusCode = (int?)result.Result?.StatusCode;
-        var error = result.FinalException?.Message ?? result.Result?.ReasonPhrase;
-        await _mediator.Publish(
-            new WebhookInvokedNotification(subscription.Url, isSuccessful, attempts, statusCode, error),
-            token);
-        return isSuccessful;
+        return await ProcessResult(result);
     }
 }

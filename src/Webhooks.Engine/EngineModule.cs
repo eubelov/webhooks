@@ -1,23 +1,19 @@
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Webhooks.Engine.ThirdParty.Magnit.Builders;
-using Webhooks.Engine.ThirdParty.Magnit.Mappers;
-
 namespace Webhooks.Engine;
 
 public static class EngineModule
 {
     public static void RegisterEngineModuleDependencies(this IServiceCollection services, IConfiguration configuration)
     {
-        TypeAdapterConfig.GlobalSettings.RequireExplicitMapping = true;
-        TypeAdapterConfig.GlobalSettings.RequireDestinationMemberSource = true;
+        services.ConfigureMappings();
 
-        services.AddHttpClient("Default");
-        services.AddMediatR(x => x.RegisterServicesFromAssemblyContaining<WebhookInvokedNotification>());
+        services.AddHttpClient(ConfigurationConstants.HttpClientName);
+
         services
-            .AddScoped<IWebhooksSender, WebhooksSender>()
-            .AddScoped<IWebhookRequestBuilder, MagnitWebhookRequestBuilder>()
-            .AddScoped<IWebhookPayloadMapper, MagnitWebhookPayloadMapper>();
+            .AddMediator(x => x.ServiceLifetime = ServiceLifetime.Transient)
+            .AddTransient<IMapper, ServiceMapper>()
+            .AddTransient<IWebhooksSender, WebhooksSender>()
+            .AddTransient<IWebhookRequestBuilder, MagnitWebhookRequestBuilder>()
+            .AddTransient<IWebhookPayloadMapper, MagnitWebhookPayloadMapper>();
 
         services
             .AddDbContext<WebhooksContext>(
@@ -32,10 +28,14 @@ public static class EngineModule
                             x.EnableRetryOnFailure(5);
                         });
                 });
+    }
 
+    private static void ConfigureMappings(this IServiceCollection services)
+    {
+        TypeAdapterConfig.GlobalSettings.RequireExplicitMapping = true;
+        TypeAdapterConfig.GlobalSettings.RequireDestinationMemberSource = true;
         var config = new TypeAdapterConfig();
         config.MapMagnitContracts();
         services.AddSingleton(config);
-        services.AddScoped<IMapper, ServiceMapper>();
     }
 }

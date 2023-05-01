@@ -1,4 +1,3 @@
-using FakeItEasy;
 using MassTransit;
 using Webhooks.BW.Consumers.Workman;
 

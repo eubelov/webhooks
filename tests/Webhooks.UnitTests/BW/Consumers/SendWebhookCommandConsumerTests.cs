@@ -1,4 +1,3 @@
-using FakeItEasy;
 using MassTransit;
 using Webhooks.BW.Commands;
 using Webhooks.BW.Consumers;
@@ -14,6 +13,7 @@ public sealed class SendWebhookCommandConsumerTests : ConsumerTestBase
         var consumer = new ScheduleWebhookCommandConsumer(Mediator);
         var context = A.Fake<ConsumeContext<ScheduleWebhookCommand>>();
         A.CallTo(() => context.Message).Returns(command);
+        A.CallTo(() => Mediator.Send(A<SendWebhookRequest>._, default)).Returns(true);
 
         await consumer.Consume(context);
 

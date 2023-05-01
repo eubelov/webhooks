@@ -1,9 +1,3 @@
-using System.Net;
-using FakeItEasy;
-using MediatR;
-using RichardSzalay.MockHttp;
-using Webhooks.Engine.ThirdParty.Builders;
-
 namespace Webhooks.UnitTests.Engine.Services;
 
 public sealed class WebhooksSenderTests

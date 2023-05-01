@@ -1,7 +1,7 @@
 global using System.Threading.Tasks;
 global using System;
 global using MassTransit;
-global using MediatR;
+global using Mediator;
 global using Webhooks.Engine.Requests;
 global using Webhooks.BW.Commands;
 global using Webhooks.Engine.Ports;
@@ -11,3 +11,4 @@ global using Webhooks.BW.Consumers;
 global using Webhooks.BW.Consumers.Workman;
 global using Webhooks.BW.Settings;
 global using Webhooks.Commands.Workman;
+global using IMediator = Mediator.IMediator;

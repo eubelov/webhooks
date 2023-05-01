@@ -9,7 +9,7 @@ internal sealed class WebhookInvokedNotificationHandler : INotificationHandler<W
         _context = context;
     }
 
-    public async Task Handle(WebhookInvokedNotification notification, CancellationToken token)
+    public async ValueTask Handle(WebhookInvokedNotification notification, CancellationToken token)
     {
         _context.Invocations.Add(
             new()

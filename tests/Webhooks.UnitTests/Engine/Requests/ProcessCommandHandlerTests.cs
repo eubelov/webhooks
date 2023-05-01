@@ -1,4 +1,3 @@
-using FakeItEasy;
 using Webhooks.Engine.Ports;
 
 namespace Webhooks.UnitTests.Engine.Requests;
