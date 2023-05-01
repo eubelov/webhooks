@@ -23,4 +23,16 @@ public sealed class SendWebhookCommandConsumerTests : ConsumerTestBase
                         r.SubscriptionId == command.SubscriptionId && r.PayloadJson == command.PayloadJson), default))
             .MustHaveHappenedOnceExactly();
     }
+
+    [Fact]
+    public async Task Consume_Should_Throw_If_False_Returned_From_Mediator()
+    {
+        var command = new AutoFaker<ScheduleWebhookCommand>().Generate();
+        var consumer = new ScheduleWebhookCommandConsumer(Mediator);
+        var context = A.Fake<ConsumeContext<ScheduleWebhookCommand>>();
+        A.CallTo(() => context.Message).Returns(command);
+        A.CallTo(() => Mediator.Send(A<SendWebhookRequest>._, default)).Returns(false);
+
+        await Assert.ThrowsAnyAsync<Exception>(() => consumer.Consume(context));
+    }
 }

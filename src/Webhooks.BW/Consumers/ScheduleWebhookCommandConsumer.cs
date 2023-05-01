@@ -12,6 +12,10 @@ internal sealed class ScheduleWebhookCommandConsumer : IConsumer<ScheduleWebhook
     public async Task Consume(ConsumeContext<ScheduleWebhookCommand> context)
     {
         var (subscriptionId, payload, _) = context.Message;
-        await _mediator.Send(new SendWebhookRequest(subscriptionId, payload), context.CancellationToken);
+        var result = await _mediator.Send(new SendWebhookRequest(subscriptionId, payload), context.CancellationToken);
+        if (!result)
+        {
+            throw new Exception("Failed to send webhook");
+        }
     }
 }

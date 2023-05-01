@@ -55,7 +55,7 @@ internal sealed class ProcessCommandRequestHandler : IRequestHandler<ProcessComm
             .ToListAsync(token);
     }
 
-    private object? GetRequestPayload(WebhookSubscription subscription, CommandBase command)
+    private object GetRequestPayload(WebhookSubscription subscription, CommandBase command)
     {
         var builder = _mappers.Single(x => x.CustomerName.EqualsIgnoreCase(subscription.CustomerName));
         return builder.Map(command);
