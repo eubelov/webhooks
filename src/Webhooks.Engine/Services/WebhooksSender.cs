@@ -5,11 +5,11 @@ internal sealed class WebhooksSender : IWebhooksSender
     private static readonly TimeSpan[] Retries =
     {
         TimeSpan.FromSeconds(0),
-        // TimeSpan.FromSeconds(0),
-        // TimeSpan.FromSeconds(2),
-        // TimeSpan.FromSeconds(4),
-        // TimeSpan.FromSeconds(8),
-        // TimeSpan.FromSeconds(16),
+        TimeSpan.FromSeconds(0),
+        TimeSpan.FromSeconds(2),
+        TimeSpan.FromSeconds(4),
+        TimeSpan.FromSeconds(8),
+        TimeSpan.FromSeconds(16),
     };
 
     private readonly IHttpClientFactory _httpClientFactory;
@@ -51,7 +51,7 @@ internal sealed class WebhooksSender : IWebhooksSender
 
     public async Task<bool> Send(WebhookSubscription receiver, string payloadJson, CancellationToken token)
     {
-        var client = _httpClientFactory.CreateClient("default");
+        var client = _httpClientFactory.CreateClient("Default");
         return await Send(receiver, payloadJson, client, token);
     }
 

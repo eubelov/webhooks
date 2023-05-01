@@ -12,7 +12,7 @@ public static class EngineModule
         TypeAdapterConfig.GlobalSettings.RequireExplicitMapping = true;
         TypeAdapterConfig.GlobalSettings.RequireDestinationMemberSource = true;
 
-        services.AddHttpClient("default");
+        services.AddHttpClient("Default");
         services.AddMediatR(x => x.RegisterServicesFromAssemblyContaining<WebhookInvokedNotification>());
         services
             .AddScoped<IWebhooksSender, WebhooksSender>()
