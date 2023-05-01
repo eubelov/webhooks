@@ -6,5 +6,6 @@
         <Nullable>enable</Nullable>
         <NoWarn>CA1062;$(NoWarn)</NoWarn>
         <ImplicitUsings>enable</ImplicitUsings>
+        <TreatWarningAsErrors>true</TreatWarningAsErrors>
     </PropertyGroup>
 </Project>

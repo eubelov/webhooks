@@ -1,5 +1,3 @@
-using Webhooks.Engine.Constants;
-
 namespace Webhooks.UnitTests.Engine.ThirdParty.Magnit;
 
 public sealed class MagnitWebhookPayloadMapperTests

@@ -2,7 +2,6 @@ using MassTransit;
 using Webhooks.BW;
 using Webhooks.Commands.Workman;
 using Webhooks.Engine;
-using Webhooks.Engine.ThirdParty.Magnit.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddUserSecrets<Program>();

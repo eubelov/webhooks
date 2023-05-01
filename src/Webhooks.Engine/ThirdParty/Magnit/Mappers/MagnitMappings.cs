@@ -1,6 +1,3 @@
-using Mapster;
-using Webhooks.Commands.Workman;
-using Webhooks.Engine.ThirdParty.Magnit.Contracts;
 
 namespace Webhooks.Engine.ThirdParty.Magnit.Mappers;
 

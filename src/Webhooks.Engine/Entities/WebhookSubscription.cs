@@ -1,5 +1,3 @@
-using Webhooks.Commands.Enums;
-
 namespace Webhooks.Engine.Entities;
 
 internal sealed class WebhookSubscription

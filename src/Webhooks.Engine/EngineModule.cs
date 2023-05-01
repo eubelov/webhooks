@@ -1,12 +1,7 @@
-using Mapster;
-using MapsterMapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Webhooks.Engine.Notifications;
-using Webhooks.Engine.ThirdParty.Builders;
 using Webhooks.Engine.ThirdParty.Magnit.Builders;
 using Webhooks.Engine.ThirdParty.Magnit.Mappers;
-using Webhooks.Engine.ThirdParty.Mappers;
 
 namespace Webhooks.Engine;
 

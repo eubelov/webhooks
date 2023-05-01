@@ -6,6 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <UserSecretsId>22b80157-2c8b-417a-b471-a7ada67bf100</UserSecretsId>
         <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+        <ServerGarbageCollection>true</ServerGarbageCollection>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
@@ -15,7 +16,6 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.2" />
     </ItemGroup>
 
     <ItemGroup>

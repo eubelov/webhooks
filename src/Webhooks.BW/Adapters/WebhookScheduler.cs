@@ -1,6 +1,3 @@
-using Webhooks.BW.Commands;
-using Webhooks.Engine.Ports;
-
 namespace Webhooks.BW.Adapters;
 
 internal sealed class WebhookScheduler : IWebhookScheduler

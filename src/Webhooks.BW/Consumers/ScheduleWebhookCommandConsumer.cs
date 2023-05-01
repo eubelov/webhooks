@@ -1,5 +1,3 @@
-using Webhooks.BW.Commands;
-
 namespace Webhooks.BW.Consumers;
 
 internal sealed class ScheduleWebhookCommandConsumer : IConsumer<ScheduleWebhookCommand>

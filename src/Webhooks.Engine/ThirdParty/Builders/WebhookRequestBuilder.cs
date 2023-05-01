@@ -1,4 +1,3 @@
-using System.Diagnostics;
 
 namespace Webhooks.Engine.ThirdParty.Builders;
 

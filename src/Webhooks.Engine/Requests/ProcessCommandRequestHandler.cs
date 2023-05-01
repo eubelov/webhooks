@@ -1,9 +1,3 @@
-using Webhooks.Commands;
-using Webhooks.Commands.Enums;
-using Webhooks.Engine.Extensions;
-using Webhooks.Engine.Ports;
-using Webhooks.Engine.ThirdParty.Mappers;
-
 namespace Webhooks.Engine.Requests;
 
 internal sealed class ProcessCommandRequestHandler : IRequestHandler<ProcessCommandRequest>

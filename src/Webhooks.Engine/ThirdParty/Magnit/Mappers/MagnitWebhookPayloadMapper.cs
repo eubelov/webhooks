@@ -1,10 +1,3 @@
-using MapsterMapper;
-using Webhooks.Commands;
-using Webhooks.Commands.Workman;
-using Webhooks.Engine.Constants;
-using Webhooks.Engine.ThirdParty.Magnit.Contracts;
-using Webhooks.Engine.ThirdParty.Mappers;
-
 namespace Webhooks.Engine.ThirdParty.Magnit.Mappers;
 
 internal sealed class MagnitWebhookPayloadMapper : IWebhookPayloadMapper

@@ -1,5 +1,3 @@
-using Webhooks.Commands;
-
 namespace Webhooks.Engine.ThirdParty.Mappers;
 
 internal interface IWebhookPayloadMapper

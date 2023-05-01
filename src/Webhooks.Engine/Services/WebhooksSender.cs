@@ -1,9 +1,3 @@
-using Polly;
-using Polly.Extensions.Http;
-using Webhooks.Commands.Enums;
-using Webhooks.Engine.Notifications;
-using Webhooks.Engine.ThirdParty.Builders;
-
 namespace Webhooks.Engine.Services;
 
 internal sealed class WebhooksSender : IWebhooksSender

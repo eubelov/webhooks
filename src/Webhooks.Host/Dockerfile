@@ -4,6 +4,9 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["Nuget.Config", "."]
+COPY ["Directory.Build.props", "/"]
+COPY ["Analyzers.ruleset", "/"]
+COPY ["stylecop.json", "/"]
 COPY ["src/Webhooks.Host/Webhooks.Host.csproj", "src/Webhooks.Host/"]
 COPY ["src/Webhooks.BW/Webhooks.BW.csproj", "src/Webhooks.BW/"]
 COPY ["src/Webhooks.Engine/Webhooks.Engine.csproj", "src/Webhooks.Engine/"]
