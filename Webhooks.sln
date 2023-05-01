@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webhooks.Host", "Webhooks.Host\Webhooks.Host.csproj", "{361AF49E-D24F-4905-9764-6294357BAF6F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webhooks.Host", "src\Webhooks.Host\Webhooks.Host.csproj", "{361AF49E-D24F-4905-9764-6294357BAF6F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webhooks.BW", "src\Webhooks.BW\Webhooks.BW.csproj", "{A1B75BFB-12C1-47D5-AA0C-F630175664F5}"
 EndProject

@@ -11,6 +11,7 @@ public sealed class WebhookRequestBuilderTests
     {
         _subscription = new AutoFaker<WebhookSubscription>()
             .RuleFor(x => x.Url, x => x.Internet.Url())
+            .RuleFor(x => x.Token, x => x.Random.String(10))
             .RuleFor(x => x.CustomerName, _ => _builder.CustomerName)
             .Generate();
     }

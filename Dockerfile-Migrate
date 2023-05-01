@@ -1,0 +1,11 @@
+FROM mcr.microsoft.com/dotnet/sdk:6.0
+
+RUN dotnet tool update --global dotnet-ef
+ENV PATH="${PATH}:/root/.dotnet/tools"
+
+WORKDIR /monolith
+COPY . .
+RUN dotnet restore $WEBHOOKS_CSPROJ --configfile Nuget.Config
+COPY . .
+RUN chmod +x ./ef-migrations-update-database.sh
+CMD [ "sh", "ef-migrations-update-database.sh" ]
