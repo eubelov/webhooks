@@ -1,3 +1,4 @@
+using FakeItEasy;
 using MassTransit;
 using Webhooks.BW.Consumers.Workman;
 
@@ -9,14 +10,13 @@ public sealed class NotifyCreatedConsumerTests : ConsumerTestBase
     public async Task Consume_Should_Send_ProcessCommandRequest_To_Mediator()
     {
         var message = new AutoFaker<NotifyCreated>().Generate();
-        var consumer = new NotifyCreatedConsumer(MediatorMock.Object);
-        var contextMock = new Mock<ConsumeContext<NotifyCreated>>();
-        contextMock.SetupGet(c => c.Message).Returns(message);
+        var consumer = new NotifyCreatedConsumer(Mediator);
+        var contextMock = A.Fake<ConsumeContext<NotifyCreated>>();
+        A.CallTo(() => contextMock.Message).Returns(message);
 
-        await consumer.Consume(contextMock.Object);
+        await consumer.Consume(contextMock);
 
-        MediatorMock.Verify(m =>
-            m.Send(It.Is<ProcessCommandRequest>(r => r.Command == message),
-                It.IsAny<CancellationToken>()), Times.Once);
+        A.CallTo(() => Mediator.Send(A<ProcessCommandRequest>.That.Matches(r => r.Command == message), default))
+            .MustHaveHappenedOnceExactly();
     }
 }

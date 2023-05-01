@@ -31,14 +31,14 @@ internal sealed class WebhooksSender : IWebhooksSender
         _retryPolicy = HttpPolicyExtensions.HandleTransientHttpError()
             .WaitAndRetryAsync(
                 Retries,
-                async (exception, _, retryCount, context) =>
+                async (exception, _, attempt, context) =>
                 {
                     var url = (string)context["Url"];
                     var type = (CommandType)context["Type"];
-                    var error = exception.Exception.Message;
+                    var error = exception.Exception?.Message;
                     var statusCode = (int?)exception.Result?.StatusCode;
 
-                    await mediator.Publish(new WebhookInvokedNotification(url, false, retryCount, statusCode, error));
+                    await mediator.Publish(new WebhookInvokedNotification(url, false, attempt, statusCode, error));
 
                     _logger.LogError(
                         exception.Exception,

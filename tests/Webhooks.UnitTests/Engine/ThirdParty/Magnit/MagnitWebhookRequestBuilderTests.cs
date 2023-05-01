@@ -7,7 +7,7 @@ public sealed class MagnitWebhookRequestBuilderTests
     private readonly MagnitWebhookRequestBuilder _builder = new();
 
     [Fact]
-    public void Should_Have_Expected_CustomerName()
+    public void CustomerName_Should_Have_Expected_Value()
     {
         _builder.CustomerName.Should().Be("Magnit");
     }

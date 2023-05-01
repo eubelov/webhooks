@@ -12,13 +12,13 @@ public sealed class MagnitWebhookPayloadMapperTests
     }
 
     [Fact]
-    public void Should_Have_Expected_CustomerName()
+    public void Map_Should_Have_Expected_CustomerName()
     {
         _payloadMapper.CustomerName.Should().Be("Magnit");
     }
 
     [Fact]
-    public void Should_Map_NotifyWorkmanCreated()
+    public void Map_Should_Map_NotifyWorkmanCreated()
     {
         var command = new AutoFaker<NotifyCreated>().Generate();
         var result = _payloadMapper.Map(command);
@@ -26,7 +26,7 @@ public sealed class MagnitWebhookPayloadMapperTests
     }
 
     [Fact]
-    public void Should_Map_NotifyWorkmanModerationCompletedCreated()
+    public void Map_Should_Map_NotifyWorkmanModerationCompletedCreated()
     {
         var command = new AutoFaker<NotifyModerationCompleted>().Generate();
         var result = _payloadMapper.Map(command);
@@ -34,7 +34,7 @@ public sealed class MagnitWebhookPayloadMapperTests
     }
     
     [Fact]
-    public void Should_Throw_If_Unsupported_Type()
+    public void Map_Should_Throw_If_Unsupported_Type()
     {
         Assert.Throws<ArgumentOutOfRangeException>(() => _payloadMapper.Map(new UnsupportedCommand()));
     }

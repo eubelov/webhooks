@@ -1,13 +1,14 @@
+using FakeItEasy;
 using MediatR;
 
 namespace Webhooks.UnitTests.BW.Consumers;
 
-public class ConsumerTestBase
+public abstract class ConsumerTestBase
 {
     protected ConsumerTestBase()
     {
-        MediatorMock = new();
+        Mediator = A.Fake<IMediator>();
     }
 
-    protected Mock<IMediator> MediatorMock { get; }
+    protected IMediator Mediator { get; }
 }

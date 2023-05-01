@@ -1,10 +1,12 @@
+using FakeItEasy;
+
 namespace Webhooks.UnitTests.Engine.Requests;
 
 public sealed class SendWebhookRequestHandlerTests
 {
     private readonly SendWebhookRequestHandler _handler;
     private readonly SendWebhookRequest _request;
-    private readonly Mock<IWebhooksSender> _sender = new();
+    private readonly IWebhooksSender _sender = A.Fake<IWebhooksSender>();
     private readonly WebhookSubscription _subscription;
 
     public SendWebhookRequestHandlerTests()
@@ -23,26 +25,24 @@ public sealed class SendWebhookRequestHandlerTests
         var context = new WebhooksContext(options);
         context.Subscriptions.Add(_subscription);
         context.SaveChanges();
-        _handler = new(context, _sender.Object);
+        _handler = new(context, _sender);
     }
 
     [Fact]
-    public async Task Should_Send_Webhook()
+    public async Task Handle_Should_Send_Webhook()
     {
         await _handler.Handle(_request, default);
-        _sender.Verify(
-            x => x.Send(It.Is<WebhookSubscription>(s => s.Id == _subscription.Id), _request.PayloadJson, default),
-            Times.Once);
+        A.CallTo(() => _sender.Send(
+                A<WebhookSubscription>.That.Matches(s => s.Id == _subscription.Id), A<string>._, default))
+            .MustHaveHappenedOnceExactly();
     }
 
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public async Task Should_Return_Send_Result(bool sendResult)
+    public async Task Handle_Should_Return_Send_Result(bool sendResult)
     {
-        _sender
-            .Setup(x => x.Send(It.IsAny<WebhookSubscription>(), It.IsAny<string>(), default))
-            .ReturnsAsync(sendResult);
+        A.CallTo(() => _sender.Send(A<WebhookSubscription>._, A<string>._, default)).Returns(sendResult);
 
         var result = await _handler.Handle(_request, default);
 

@@ -1,13 +1,14 @@
+using FakeItEasy;
 using Webhooks.Engine.Ports;
 
 namespace Webhooks.UnitTests.Engine.Requests;
 
 public sealed class ProcessCommandHandlerTests
 {
-    private readonly Mock<IWebhookPayloadMapper> _mapper = new();
+    private readonly IWebhookPayloadMapper _mapper = A.Fake<IWebhookPayloadMapper>();
     private readonly NotifyCreated _command;
     private readonly ProcessCommandRequestHandler _requestHandler;
-    private readonly Mock<IWebhookScheduler> _webhookScheduler = new();
+    private readonly IWebhookScheduler _webhookScheduler = A.Fake<IWebhookScheduler>();
     private readonly WebhookSubscription _subscription;
 
     public ProcessCommandHandlerTests()
@@ -27,46 +28,41 @@ public sealed class ProcessCommandHandlerTests
         context.Subscriptions.Add(_subscription);
         context.SaveChanges();
 
-        _mapper.SetupGet(x => x.CustomerName).Returns(_subscription.CustomerName);
-        _mapper.Setup(x => x.Map(It.IsAny<CommandBase>())).Returns(new object());
+        A.CallTo(() => _mapper.CustomerName).Returns(_subscription.CustomerName);
+        A.CallTo(() => _mapper.Map(A<CommandBase>._)).Returns(new object());
 
         _requestHandler = new(
             context,
-            _webhookScheduler.Object,
-            new[] { _mapper.Object },
+            _webhookScheduler,
+            new[]
+            {
+                _mapper
+            },
             NullLogger<ProcessCommandRequestHandler>.Instance);
     }
 
     [Fact]
-    public async Task Should_Map_Command_To_Expected_Input_Type()
+    public async Task Handle_Should_Map_Command_To_Expected_Input_Type()
     {
         await _requestHandler.Handle(new(_command), default);
-        _mapper.Verify(x => x.Map<CommandBase>(_command), Times.Once);
+        A.CallTo(() => _mapper.Map(A<CommandBase>.That.IsEqualTo(_command))).MustHaveHappenedOnceExactly();
     }
 
     [Fact]
-    public async Task Should_Send_SendWebhookCommand()
+    public async Task Handle_Should_Send_SendWebhookCommand()
     {
         await _requestHandler.Handle(new(_command), default);
-        _webhookScheduler
-            .Verify(
-                x => x.ScheduleSend(
-                    _subscription.Id,
-                    It.IsAny<string>(),
-                    default),
-                Times.Once);
+
+        A.CallTo(() => _webhookScheduler.ScheduleSend(_subscription.Id, A<string>._, default))
+            .MustHaveHappenedOnceExactly();
     }
 
     [Fact]
-    public async Task Should_Not_Send_SendWebhookCommand_If_Subscription_Not_Found()
+    public async Task Handle_Should_Not_Send_SendWebhookCommand_If_Subscription_Not_Found()
     {
         await _requestHandler.Handle(new(new AutoFaker<NotifyModerationCompleted>()), default);
-        _mapper.VerifyNoOtherCalls();
-        _webhookScheduler.Verify(
-            x => x.ScheduleSend(
-                It.IsAny<Guid>(),
-                It.IsAny<string>(),
-                default),
-            Times.Never);
+        A.CallTo(() => _mapper.Map(_command)).MustNotHaveHappened();
+        A.CallTo(() => _webhookScheduler.ScheduleSend(_subscription.Id, A<string>._, default))
+            .MustNotHaveHappened();
     }
 }

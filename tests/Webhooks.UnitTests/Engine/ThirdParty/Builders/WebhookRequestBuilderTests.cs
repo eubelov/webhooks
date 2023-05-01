@@ -11,13 +11,13 @@ public sealed class WebhookRequestBuilderTests
     {
         _subscription = new AutoFaker<WebhookSubscription>()
             .RuleFor(x => x.Url, x => x.Internet.Url())
-            .RuleFor(x => x.Token, x => x.Random.String(10))
+            .RuleFor(x => x.Token, x => x.Random.String2(10))
             .RuleFor(x => x.CustomerName, _ => _builder.CustomerName)
             .Generate();
     }
 
     [Fact]
-    public void Should_Return_HttpRequestMessage_With_Correct_Properties()
+    public void BuildRequest_Should_Return_HttpRequestMessage_With_Correct_Properties()
     {
         var request = _builder.BuildRequest(_subscription, "{}");
 
@@ -28,7 +28,7 @@ public sealed class WebhookRequestBuilderTests
     }
 
     [Fact]
-    public void Should_Add_Auth_Header()
+    public void BuildRequest_Should_Add_Auth_Header()
     {
         var request = _builder.BuildRequest(_subscription, "{}");
 
@@ -36,7 +36,7 @@ public sealed class WebhookRequestBuilderTests
     }
 
     [Fact]
-    public void Should_Not_Add_Auth_Header()
+    public void BuildRequest_Should_Not_Add_Auth_Header()
     {
         _subscription.Token = null;
 

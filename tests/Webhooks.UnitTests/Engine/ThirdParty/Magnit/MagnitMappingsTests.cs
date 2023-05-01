@@ -12,7 +12,7 @@ public sealed class MagnitMappingsTests
     }
 
     [Fact]
-    public void Should_Map_NotifyWorkmanCreated()
+    public void Map_Should_Map_NotifyWorkmanCreated()
     {
         var command = new AutoFaker<NotifyCreated>().Generate();
         var result = _mapper.Map<WorkmanCreated>(command);
@@ -20,7 +20,7 @@ public sealed class MagnitMappingsTests
     }
 
     [Fact]
-    public void Should_Map_NotifyWorkmanModerationCompletedCreated()
+    public void Map_Should_Map_NotifyWorkmanModerationCompletedCreated()
     {
         var command = new AutoFaker<NotifyModerationCompleted>().Generate();
         var result = _mapper.Map<WorkmanModerationCompleted>(command);
@@ -28,7 +28,7 @@ public sealed class MagnitMappingsTests
     }
 
     [Fact]
-    public void Should_Return_Null_For_Unknown_Map()
+    public void Map_Should_Return_Null_For_Unknown_Map()
     {
         var command = new AutoFaker<NotifyModerationCompleted>().Generate();
         var result = _mapper.Map<WorkmanModerationCompleted>(command);

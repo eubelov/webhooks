@@ -7,7 +7,6 @@ global using Webhooks.Commands.Workman;
 global using Webhooks.Engine.ThirdParty.Magnit.Mappers;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.Logging.Abstractions;
-global using Moq;
 global using Webhooks.Commands;
 global using Webhooks.Commands.Enums;
 global using Webhooks.Engine.Entities;
