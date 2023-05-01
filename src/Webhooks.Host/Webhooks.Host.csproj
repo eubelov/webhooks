@@ -30,4 +30,8 @@
         <ProjectReference Include="..\Webhooks.Engine\Webhooks.Engine.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Migrations\WebhooksContextModelSnapshot.cs" />
+    </ItemGroup>
+
 </Project>

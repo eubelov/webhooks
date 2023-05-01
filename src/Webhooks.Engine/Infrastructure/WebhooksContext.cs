@@ -1,4 +1,6 @@
-﻿namespace Webhooks.Engine.Infrastructure;
+﻿using Webhooks.Engine.Infrastructure.EntityConfigurations;
+
+namespace Webhooks.Engine.Infrastructure;
 
 internal sealed class WebhooksContext : DbContext
 {
@@ -15,6 +17,7 @@ internal sealed class WebhooksContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema(Schema);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(WebhookInvocationConfiguration).Assembly);
         base.OnModelCreating(modelBuilder);
     }
 }

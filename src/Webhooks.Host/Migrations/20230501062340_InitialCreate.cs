@@ -22,9 +22,10 @@ namespace Webhooks.Host.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     InvokedAtUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     IsSuccess = table.Column<bool>(type: "boolean", nullable: false),
-                    ErrorDescription = table.Column<string>(type: "text", nullable: true),
+                    ErrorDescription = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true),
                     Attempt = table.Column<int>(type: "integer", nullable: false),
-                    Url = table.Column<string>(type: "text", nullable: false)
+                    Url = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
+                    StatusCode = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -37,11 +38,12 @@ namespace Webhooks.Host.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Type = table.Column<int>(type: "integer", nullable: false),
-                    Url = table.Column<string>(type: "text", nullable: false),
-                    Token = table.Column<string>(type: "text", nullable: true),
+                    Type = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Url = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
+                    Token = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     CustomerId = table.Column<Guid>(type: "uuid", nullable: false),
-                    IsEnabled = table.Column<bool>(type: "boolean", nullable: false)
+                    IsEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    CustomerName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
