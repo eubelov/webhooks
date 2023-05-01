@@ -1,7 +1,6 @@
 global using System.Threading.Tasks;
 global using System;
 global using MassTransit;
-global using Mediator;
 global using Webhooks.Engine.Requests;
 global using Webhooks.BW.Commands;
 global using Webhooks.Engine.Ports;
