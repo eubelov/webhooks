@@ -64,8 +64,7 @@ public sealed class WebhooksSenderTests
                         x => x.Success &&
                              x.Url == ThirdPartyUri
                              && x.Attempt == 1
-                             && x.StatusCode == (int)HttpStatusCode.OK
-                    ),
+                             && x.StatusCode == (int)HttpStatusCode.OK),
                     default))
             .MustHaveHappenedOnceExactly();
     }
@@ -105,8 +104,7 @@ public sealed class WebhooksSenderTests
                     x => !x.Success &&
                          x.Url == ThirdPartyUri
                          && x.Attempt == 1
-                         && x.StatusCode == (int)HttpStatusCode.ServiceUnavailable
-                ),
+                         && x.StatusCode == (int)HttpStatusCode.ServiceUnavailable),
                 default))
             .MustHaveHappenedOnceExactly();
     }

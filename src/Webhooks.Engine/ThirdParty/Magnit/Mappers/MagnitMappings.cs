@@ -1,4 +1,3 @@
-
 namespace Webhooks.Engine.ThirdParty.Magnit.Mappers;
 
 internal static class MagnitMappings

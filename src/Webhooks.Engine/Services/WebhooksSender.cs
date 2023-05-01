@@ -81,7 +81,7 @@ internal sealed class WebhooksSender : IWebhooksSender
             attempts++;
             return await client.SendAsync(BuildHttpRequest(), token);
         }
-        
+
         async Task<bool> ProcessResult(PolicyResult<HttpResponseMessage> result)
         {
             var isSuccessful = result.Outcome is OutcomeType.Successful && result.Result.IsSuccessStatusCode;

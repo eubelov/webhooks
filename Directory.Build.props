@@ -2,9 +2,21 @@
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
-        <NoWarn>CA1062;$(NoWarn)</NoWarn>
+        <NoWarn>CA1062;SA1313;$(NoWarn)</NoWarn>
         <ImplicitUsings>enable</ImplicitUsings>
         <TreatWarningAsErrors>true</TreatWarningAsErrors>
         <LangVersion>latest</LangVersion>
+        <CodeAnalysisRuleSet>$(SolutionDir)Analyzers.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <AdditionalFiles Include="$(SolutionDir)stylecop.json" Link="stylecop.json" />
+    </ItemGroup>
 </Project>

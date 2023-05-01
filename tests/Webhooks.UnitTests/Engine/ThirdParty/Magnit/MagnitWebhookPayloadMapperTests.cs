@@ -32,14 +32,14 @@ public sealed class MagnitWebhookPayloadMapperTests
         var result = _payloadMapper.Map(command);
         result.Should().BeEquivalentTo(command, x => x.ExcludingMissingMembers());
     }
-    
+
     [Fact]
     public void Map_Should_Throw_If_Unsupported_Type()
     {
         Assert.Throws<ArgumentOutOfRangeException>(() => _payloadMapper.Map(new UnsupportedCommand()));
     }
 
-    private sealed record UnsupportedCommand() : CommandBase
+    private sealed record UnsupportedCommand : CommandBase
     {
         public override CommandType CommandType => CommandType.Unknown;
     }

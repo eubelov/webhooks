@@ -16,10 +16,8 @@ global using Webhooks.Engine.ThirdParty.Mappers;
 global using Webhooks.Engine.Services;
 global using Webhooks.Engine.Notifications;
 global using Webhooks.Engine.ThirdParty.Magnit.Contracts;
-global using IMediator = Mediator.IMediator;
 global using System.Net;
 global using FakeItEasy;
 global using RichardSzalay.MockHttp;
 global using Webhooks.Engine.ThirdParty.Builders;
-
-
+global using IMediator = Mediator.IMediator;

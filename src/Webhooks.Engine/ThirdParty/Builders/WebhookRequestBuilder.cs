@@ -1,4 +1,3 @@
-
 namespace Webhooks.Engine.ThirdParty.Builders;
 
 internal abstract class WebhookRequestBuilder : IWebhookRequestBuilder
