@@ -1,0 +1,29 @@
+# https://sequencediagram.org/
+
+title Sending Webhooks
+
+Bus -> Consumer: ScheduleWebhookCommand
+Consumer -> SendWebhookRequestHandler: SendWebhookRequest
+activate Consumer
+activate SendWebhookRequestHandler
+SendWebhookRequestHandler -> DB: Get subscription
+activate DB
+DB -->SendWebhookRequestHandler: Subscription
+deactivate DB
+SendWebhookRequestHandler -> WebhooksSender: Send
+activate WebhooksSender
+WebhooksSender -> ReguestBuilder: Build
+activate ReguestBuilder
+note over ReguestBuilder: HTTP request & auth
+ReguestBuilder -->WebhooksSender: Prepared request
+deactivate ReguestBuilder
+WebhooksSender -> 3-d Party: HTTP POST
+activate 3-d Party
+3-d Party -->WebhooksSender: Response
+deactivate 3-d Party
+WebhooksSender -->SendWebhookRequestHandler: Response
+deactivate WebhooksSender
+SendWebhookRequestHandler -->Consumer: (Success|Fail)
+deactivate SendWebhookRequestHandler
+Consumer --> Bus: Ack message
+deactivate Consumer

@@ -7,21 +7,17 @@ public static class BwModule
 {
     public static void RegisterBwModuleDependencies(this IServiceCollection services, IConfiguration configuration)
     {
-        JobStorage.Current = new MemoryStorage();
-
         services.AddMediatR(x => x.RegisterServicesFromAssemblyContaining<RabbitSettings>());
         services.AddScoped<IWebhookScheduler, WebhookScheduler>();
 
         services.AddMassTransit(x =>
         {
-            var settings = configuration.GetSection(nameof(RabbitSettings)).Get<RabbitSettings>()!;
-
-            x.AddMessageScheduler(new("queue:webhooks-hangfire"));
             x.AddConsumer<NotifyCreatedConsumer>();
             x.AddConsumer<NotifyModerationCompletedConsumer>();
             x.AddConsumer<ScheduleWebhookCommandConsumer>();
             x.UsingRabbitMq((ctx, cfg) =>
             {
+                var settings = configuration.GetSection(nameof(RabbitSettings)).Get<RabbitSettings>()!;
                 cfg.Host(settings.Uri, settings.Port, settings.VirtualHost, c =>
                 {
                     c.Username(settings.Username);
@@ -29,8 +25,6 @@ public static class BwModule
                 });
 
                 cfg.ConfigureEndpoints(ctx);
-                cfg.UseMessageScheduler(new("queue:webhooks-hangfire"));
-                cfg.UseHangfireScheduler("webhooks-hangfire");
             });
         });
     }

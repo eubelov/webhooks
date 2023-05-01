@@ -29,7 +29,7 @@ internal abstract class WebhookRequestBuilder : IWebhookRequestBuilder
         {
             RequestUri = new(subscription.Url, UriKind.Absolute),
             Method = HttpMethod.Post,
-            Content = new StringContent(payloadJson, Encoding.UTF8, "application/json")
+            Content = new StringContent(payloadJson, Encoding.UTF8, "application/json"),
         };
     }
 }

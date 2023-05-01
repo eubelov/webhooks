@@ -6,6 +6,6 @@ internal interface IWebhookPayloadMapper
 {
     string CustomerName { get; }
 
-    object? Map<T>(T source)
+    object Map<T>(T source)
         where T : CommandBase;
 }

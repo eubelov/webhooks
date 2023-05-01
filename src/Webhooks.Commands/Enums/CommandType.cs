@@ -4,5 +4,5 @@ public enum CommandType
 {
     Unknown,
     WorkmanCreated,
-    WorkmanModerationCompleted
+    WorkmanModerationCompleted,
 }

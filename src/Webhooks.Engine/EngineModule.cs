@@ -24,7 +24,7 @@ public static class EngineModule
             .AddScoped<IWebhookRequestBuilder, MagnitWebhookRequestBuilder>()
             .AddScoped<IWebhookPayloadMapper, MagnitWebhookPayloadMapper>();
 
-        services.AddEntityFrameworkNpgsql()
+        services
             .AddDbContext<WebhooksContext>(
                 options =>
                 {

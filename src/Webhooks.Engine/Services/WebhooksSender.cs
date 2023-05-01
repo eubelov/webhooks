@@ -10,7 +10,7 @@ internal sealed class WebhooksSender : IWebhooksSender
 {
     private static readonly TimeSpan[] Retries =
     {
-        TimeSpan.FromSeconds(0)
+        TimeSpan.FromSeconds(0),
         // TimeSpan.FromSeconds(0),
         // TimeSpan.FromSeconds(2),
         // TimeSpan.FromSeconds(4),
@@ -41,15 +41,17 @@ internal sealed class WebhooksSender : IWebhooksSender
                 {
                     var url = (string)context["Url"];
                     var type = (CommandType)context["Type"];
-                    var errorText = exception.Exception.Message;
+                    var error = exception.Exception.Message;
+                    var statusCode = (int?)exception.Result?.StatusCode;
 
-                    await mediator.Publish(new WebhookInvokedNotification(url, false, retryCount, errorText));
+                    await mediator.Publish(new WebhookInvokedNotification(url, false, retryCount, statusCode, error));
 
                     _logger.LogError(
                         exception.Exception,
-                        "Sending hook to {DestinationUrl} of type {WebhookType} failed with error {ErrorDescription}",
+                        "Sending hook to {DestinationUrl} of type {WebhookType} failed with error {ErrorDescription} and status code {StatusCode}",
                         url, type,
-                        errorText);
+                        error,
+                        statusCode);
                 });
     }
 
@@ -88,8 +90,12 @@ internal sealed class WebhooksSender : IWebhooksSender
 
         var context = new Context { ["Url"] = subscription.Url, ["Type"] = subscription.Type };
         var result = await _retryPolicy.ExecuteAndCaptureAsync(SendRequest, context);
-        var isSuccessful = result.Outcome is OutcomeType.Successful;
-        await _mediator.Publish(new WebhookInvokedNotification(subscription.Url, isSuccessful, attempts), token);
+        var isSuccessful = result.Outcome is OutcomeType.Successful && result.Result.IsSuccessStatusCode;
+        var statusCode = (int?)result.Result?.StatusCode;
+        var error = result.FinalException?.Message ?? result.Result?.ReasonPhrase;
+        await _mediator.Publish(
+            new WebhookInvokedNotification(subscription.Url, isSuccessful, attempts, statusCode, error),
+            token);
         return isSuccessful;
     }
 }

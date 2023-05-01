@@ -18,7 +18,7 @@ internal sealed class MagnitWebhookPayloadMapper : IWebhookPayloadMapper
 
     public string CustomerName => CustomerNames.Magnit;
 
-    public object? Map<T>(T source)
+    public object Map<T>(T source)
         where T : CommandBase
     {
         return source switch
@@ -27,7 +27,7 @@ internal sealed class MagnitWebhookPayloadMapper : IWebhookPayloadMapper
             NotifyModerationCompleted => _mapper.Map<WorkmanModerationCompleted>(source),
             _ => throw new ArgumentOutOfRangeException(
                 nameof(source),
-                $"Unsupported command type - {source.GetType().Name}")
+                $"Unsupported command type - {source.GetType().Name}"),
         };
     }
 }

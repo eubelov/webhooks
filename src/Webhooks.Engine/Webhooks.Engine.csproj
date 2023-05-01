@@ -23,17 +23,4 @@
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Compile Remove="Infrastructure\MessageBus\SendWebhookCommand.cs" />
-      <Compile Remove="Infrastructure\MessageBus\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Remove="Infrastructure\MessageBus\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="Infrastructure\MessageBus\**" />
-    </ItemGroup>
-
 </Project>

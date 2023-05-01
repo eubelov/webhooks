@@ -1,6 +1,6 @@
 namespace Webhooks.Engine.Entities;
 
-public sealed class WebhookInvocation
+internal sealed class WebhookInvocation
 {
     public Guid Id { get; set; }
     public DateTime InvokedAtUtc { get; set; }
@@ -8,4 +8,5 @@ public sealed class WebhookInvocation
     public string? ErrorDescription { get; set; }
     public int Attempt { get; set; }
     public string Url { get; set; } = string.Empty;
+    public int? StatusCode { get; set; }
 }

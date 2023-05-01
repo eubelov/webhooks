@@ -28,8 +28,4 @@
       <ProjectReference Include="..\..\src\Webhooks.BW\Webhooks.BW.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="BW\Producers\" />
-    </ItemGroup>
-
 </Project>

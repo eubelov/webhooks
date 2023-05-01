@@ -1,0 +1,25 @@
+# https://sequencediagram.org/
+
+title Scheduling webhooks
+
+Bus ->  Consumer: Command
+activate Consumer
+Consumer -> ProcessCommandRequestHandler: ProcessCommandRequest
+activate ProcessCommandRequestHandler
+ProcessCommandRequestHandler -> DB: Get subscribers
+activate DB
+DB -->ProcessCommandRequestHandler: List of subscribers
+deactivate DB
+loop each subscriber
+ProcessCommandRequestHandler->Mapper:Map payload
+activate Mapper
+Mapper --> ProcessCommandRequestHandler:Formatted payload
+deactivate Mapper
+ProcessCommandRequestHandler -> WebhookScheduler: Schedule
+activate WebhookScheduler
+end
+WebhookScheduler -> Bus: ScheduleWebhookCommand (SubId + Payload)
+deactivate ProcessCommandRequestHandler
+deactivate WebhookScheduler
+deactivate Consumer
+end

@@ -12,6 +12,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{FFBB93ED
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webhooks.UnitTests", "tests\Webhooks.UnitTests\Webhooks.UnitTests.csproj", "{490DD140-0945-484E-886F-8811F8BF9EC0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{41921060-656D-4537-8CF9-C97917645F83}"
+	ProjectSection(SolutionItems) = preProject
+		docs\1. schedule.txt = docs\1. schedule.txt
+		docs\2. execute.txt = docs\2. execute.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

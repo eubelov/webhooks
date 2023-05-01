@@ -18,7 +18,8 @@ internal sealed class WebhookInvokedNotificationHandler : INotificationHandler<W
                 ErrorDescription = notification.Error,
                 IsSuccess = notification.Success,
                 InvokedAtUtc = DateTime.UtcNow,
-                Url = notification.Url
+                Url = notification.Url,
+                StatusCode = notification.StatusCode,
             });
         await _context.SaveChangesAsync(token);
     }
