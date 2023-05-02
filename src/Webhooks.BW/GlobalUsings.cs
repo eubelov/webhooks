@@ -3,7 +3,6 @@ global using System;
 global using MassTransit;
 global using Webhooks.Engine.Requests;
 global using Webhooks.BW.Commands;
-global using Webhooks.Engine.Ports;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using Webhooks.BW.Consumers;

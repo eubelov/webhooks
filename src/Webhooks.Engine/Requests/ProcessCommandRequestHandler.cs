@@ -1,50 +1,42 @@
+using Webhooks.Engine.Models;
+
 namespace Webhooks.Engine.Requests;
 
-internal sealed class ProcessCommandRequestHandler : IRequestHandler<ProcessCommandRequest>
+internal sealed class ProcessCommandRequestHandler : IRequestHandler<ProcessCommandRequest, List<WebhookSchedule>>
 {
     private readonly WebhooksContext _context;
     private readonly ILogger<ProcessCommandRequestHandler> _logger;
-    private readonly IWebhookScheduler _webhookScheduler;
     private readonly IEnumerable<IWebhookPayloadMapper> _mappers;
 
     public ProcessCommandRequestHandler(
         WebhooksContext context,
-        IWebhookScheduler webhookScheduler,
         IEnumerable<IWebhookPayloadMapper> mappers,
         ILogger<ProcessCommandRequestHandler> logger)
     {
         _context = context;
         _mappers = mappers;
         _logger = logger;
-        _webhookScheduler = webhookScheduler;
     }
 
-    public async ValueTask<Unit> Handle(ProcessCommandRequest request, CancellationToken token)
+    public async ValueTask<List<WebhookSchedule>> Handle(ProcessCommandRequest request, CancellationToken token)
     {
         var command = request.Command;
         _logger.LogTrace("Processing command {CommandType}", command.CommandType);
         var subscribers = await GetSubscribers(command.CommandType, token);
-        await ScheduleWebhooks(subscribers, command, token);
-
-        return Unit.Value;
+        return ScheduleWebhooks(subscribers, command);
     }
 
-    private async Task ScheduleWebhooks(
-        List<WebhookSubscription> subscribers,
-        CommandBase command,
-        CancellationToken token)
+    private List<WebhookSchedule> ScheduleWebhooks(List<WebhookSubscription> subscribers, CommandBase command)
     {
         _logger.LogTrace("Scheduling hook for {SubscribersCount} subscriber(s)", subscribers.Count);
 
-        var sendTasks = subscribers.Select(
+        return subscribers.Select(
             x =>
             {
                 var payload = GetRequestPayload(x, command);
                 var payloadJson = JsonSerializer.Serialize(payload);
-                return _webhookScheduler.ScheduleSend(x.Id, payloadJson, token);
-            });
-
-        await Task.WhenAll(sendTasks);
+                return new WebhookSchedule(x.Id, payloadJson);
+            }).ToList();
     }
 
     private async Task<List<WebhookSubscription>> GetSubscribers(

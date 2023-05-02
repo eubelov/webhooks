@@ -26,7 +26,6 @@ global using Polly.Extensions.Http;
 global using Webhooks.Commands.Enums;
 global using Webhooks.Engine.Notifications;
 global using Webhooks.Engine.Extensions;
-global using Webhooks.Engine.Ports;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using Webhooks.Engine.ThirdParty.Magnit.Builders;

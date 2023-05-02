@@ -27,8 +27,10 @@ var sp = app.Services.CreateScope()
 
 for (int i = 0; i < 1; i++)
 {
-    await sp.Publish(new NotifyCreated("333333333", "79117984018") { CorrelationId = Guid.NewGuid() });
-    await sp.Publish(new NotifyModerationCompleted("333333333", "79117984018") { CorrelationId = Guid.NewGuid() });
+    await sp.Publish(new NotifyCreated("333333333", "79117984018") { CorrelationId = Guid.NewGuid() },
+        x => x.CorrelationId = Guid.NewGuid());
+    await sp.Publish(new NotifyModerationCompleted("333333333", "79117984018") { CorrelationId = Guid.NewGuid() },
+        x => x.CorrelationId = Guid.NewGuid());
 }
 
 app.Run();

@@ -1,6 +1,6 @@
 namespace Webhooks.BW.Consumers.Workman;
 
-internal sealed class NotifyModerationCompletedConsumer : IConsumer<NotifyModerationCompleted>
+internal sealed class NotifyModerationCompletedConsumer : WebhookConsumerBase<NotifyModerationCompleted>
 {
     private readonly IMediator _mediator;
 
@@ -9,8 +9,9 @@ internal sealed class NotifyModerationCompletedConsumer : IConsumer<NotifyModera
         _mediator = mediator;
     }
 
-    public async Task Consume(ConsumeContext<NotifyModerationCompleted> context)
+    public override async Task Consume(ConsumeContext<NotifyModerationCompleted> context)
     {
-        await _mediator.Send(new ProcessCommandRequest(context.Message), context.CancellationToken);
+        var schedules = await _mediator.Send(new ProcessCommandRequest(context.Message), context.CancellationToken);
+        await ScheduleWebhooks(context, schedules);
     }
 }
