@@ -8,4 +8,6 @@ global using Microsoft.Extensions.DependencyInjection;
 global using Webhooks.BW.Consumers;
 global using Webhooks.BW.Settings;
 global using Webhooks.Commands.Workman;
+global using Webhooks.BW.Consumers.Webhooks.Workman;
+global using Webhooks.Engine.Models;
 global using IMediator = Mediator.IMediator;

@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-
 namespace Webhooks.Engine.Infrastructure;
 
 internal sealed class StatusConverter : ValueConverter<CommandType, string>

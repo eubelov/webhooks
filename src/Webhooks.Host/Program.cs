@@ -1,9 +1,3 @@
-using MassTransit;
-using Serilog;
-using Webhooks.BW;
-using Webhooks.Commands.Workman;
-using Webhooks.Engine;
-
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddUserSecrets<Program>();
 builder.Host.UseSerilog((ctx, lc) =>

@@ -1,5 +1,3 @@
-using Webhooks.BW.Consumers.Webhooks.Workman;
-
 namespace Webhooks.BW;
 
 public static class BwModule

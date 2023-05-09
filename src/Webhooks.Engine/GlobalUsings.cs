@@ -30,3 +30,7 @@ global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using Webhooks.Engine.ThirdParty.Magnit.Builders;
 global using Webhooks.Engine.ThirdParty.Magnit.Mappers;
+global using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using Webhooks.Engine.Infrastructure.EntityConfigurations;
+global using Webhooks.Engine.Models;

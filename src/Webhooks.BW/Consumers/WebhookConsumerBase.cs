@@ -1,5 +1,3 @@
-using Webhooks.Engine.Models;
-
 namespace Webhooks.BW.Consumers;
 
 internal abstract class WebhookConsumerBase<T> : IConsumer<T>

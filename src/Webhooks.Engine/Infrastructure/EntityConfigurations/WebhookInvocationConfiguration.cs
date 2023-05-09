@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
 namespace Webhooks.Engine.Infrastructure.EntityConfigurations;
 
 internal sealed class WebhookInvocationConfiguration : IEntityTypeConfiguration<WebhookInvocation>

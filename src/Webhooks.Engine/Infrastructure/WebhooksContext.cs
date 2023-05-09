@@ -1,6 +1,4 @@
-﻿using Webhooks.Engine.Infrastructure.EntityConfigurations;
-
-namespace Webhooks.Engine.Infrastructure;
+﻿namespace Webhooks.Engine.Infrastructure;
 
 internal sealed class WebhooksContext : DbContext
 {
