@@ -1,5 +1,3 @@
-using Webhooks.Engine.Models;
-
 namespace Webhooks.Engine.Requests;
 
 internal sealed class ProcessCommandRequestHandler : IRequestHandler<ProcessCommandRequest, List<WebhookSchedule>>
