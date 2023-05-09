@@ -1,10 +1,10 @@
 namespace Webhooks.BW.Consumers;
 
-internal sealed class ScheduleWebhookCommandConsumer : IConsumer<ScheduleWebhookCommand>
+internal sealed class ScheduleWebhookConsumer : IConsumer<ScheduleWebhookCommand>
 {
     private readonly IMediator _mediator;
 
-    public ScheduleWebhookCommandConsumer(IMediator mediator)
+    public ScheduleWebhookConsumer(IMediator mediator)
     {
         _mediator = mediator;
     }

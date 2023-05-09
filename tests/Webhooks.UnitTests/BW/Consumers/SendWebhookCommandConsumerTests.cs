@@ -10,7 +10,7 @@ public sealed class SendWebhookCommandConsumerTests : ConsumerTestBase
     public async Task Consume_Should_Send_SendWebhookRequest_To_Mediator()
     {
         var command = new AutoFaker<ScheduleWebhookCommand>().Generate();
-        var consumer = new ScheduleWebhookCommandConsumer(Mediator);
+        var consumer = new ScheduleWebhookConsumer(Mediator);
         var context = A.Fake<ConsumeContext<ScheduleWebhookCommand>>();
         A.CallTo(() => context.Message).Returns(command);
         A.CallTo(() => Mediator.Send(A<SendWebhookRequest>._, default)).Returns(true);
@@ -28,7 +28,7 @@ public sealed class SendWebhookCommandConsumerTests : ConsumerTestBase
     public async Task Consume_Should_Throw_If_False_Returned_From_Mediator()
     {
         var command = new AutoFaker<ScheduleWebhookCommand>().Generate();
-        var consumer = new ScheduleWebhookCommandConsumer(Mediator);
+        var consumer = new ScheduleWebhookConsumer(Mediator);
         var context = A.Fake<ConsumeContext<ScheduleWebhookCommand>>();
         A.CallTo(() => context.Message).Returns(command);
         A.CallTo(() => Mediator.Send(A<SendWebhookRequest>._, default)).Returns(false);

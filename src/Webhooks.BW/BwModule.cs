@@ -1,3 +1,5 @@
+using Webhooks.BW.Consumers.Webhooks.Workman;
+
 namespace Webhooks.BW;
 
 public static class BwModule
@@ -6,9 +8,9 @@ public static class BwModule
     {
         services.AddMassTransit(x =>
         {
-            x.AddConsumer<NotifyCreatedWebhookConsumer>();
+            x.AddConsumer<NotifyCreatedConsumer>();
             x.AddConsumer<NotifyModerationCompletedConsumer>();
-            x.AddConsumer<ScheduleWebhookCommandConsumer>();
+            x.AddConsumer<ScheduleWebhookConsumer>();
             x.UsingRabbitMq((ctx, cfg) =>
             {
                 var settings = configuration.GetSection(nameof(RabbitSettings)).Get<RabbitSettings>()!;

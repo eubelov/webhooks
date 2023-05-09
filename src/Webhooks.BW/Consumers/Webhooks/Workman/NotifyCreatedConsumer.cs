@@ -1,10 +1,10 @@
-namespace Webhooks.BW.Consumers.Workman;
+namespace Webhooks.BW.Consumers.Webhooks.Workman;
 
-internal sealed class NotifyCreatedWebhookConsumer : WebhookConsumerBase<NotifyCreated>
+internal sealed class NotifyCreatedConsumer : WebhookConsumerBase<NotifyCreated>
 {
     private readonly IMediator _mediator;
 
-    public NotifyCreatedWebhookConsumer(IMediator mediator)
+    public NotifyCreatedConsumer(IMediator mediator)
     {
         _mediator = mediator;
     }

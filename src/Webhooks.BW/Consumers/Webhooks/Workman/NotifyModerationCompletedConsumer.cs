@@ -1,4 +1,4 @@
-namespace Webhooks.BW.Consumers.Workman;
+namespace Webhooks.BW.Consumers.Webhooks.Workman;
 
 internal sealed class NotifyModerationCompletedConsumer : WebhookConsumerBase<NotifyModerationCompleted>
 {
